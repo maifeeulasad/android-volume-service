@@ -9,7 +9,7 @@
         android:id="@+id/pb_volume_level"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="20dp" />
 
     <LinearLayout
         android:layout_width="match_parent"

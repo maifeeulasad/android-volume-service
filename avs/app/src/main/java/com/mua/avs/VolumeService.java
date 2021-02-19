@@ -7,6 +7,7 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.os.IBinder;
 import android.widget.RemoteViews;
 
@@ -16,6 +17,8 @@ import androidx.core.app.NotificationManagerCompat;
 
 public class VolumeService extends Service {
 
+    private RemoteViews notificationLayout;
+
     @Override
     public IBinder onBind(Intent intent) {
         return null;
@@ -23,16 +26,17 @@ public class VolumeService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        notificationLayout = new RemoteViews(getPackageName(), R.layout.notification_volume);
         createNotification();
+        showVolume();
         return Service.START_STICKY;
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-
-        Intent serviceIntent = new Intent(this, VolumeService.class);
-        startService(serviceIntent);
+    void showVolume(){
+        AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        int volumeLevel = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+        int maxVolumeLevel = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+        notificationLayout.setProgressBar(R.id.pb_volume_level, maxVolumeLevel,volumeLevel,true);
     }
 
     void createNotification() {
@@ -46,12 +50,9 @@ public class VolumeService extends Service {
                 manager.createNotificationChannel(channel);
             }
 
-            RemoteViews notificationLayout = new RemoteViews(getPackageName(), R.layout.notification_volume);
-            RemoteViews notificationLayoutExpanded = new RemoteViews(getPackageName(), R.layout.notification_volume);
-
             Intent downIntent = new Intent(this, NotificationIntentService.class);
             downIntent.setAction("down");
-            notificationLayoutExpanded
+            notificationLayout
                     .setOnClickPendingIntent(
                             R.id.btn_volume_down,
                             PendingIntent.getService(
@@ -64,7 +65,7 @@ public class VolumeService extends Service {
 
             Intent riseIntent = new Intent(this, NotificationIntentService.class);
             riseIntent.setAction("rise");
-            notificationLayoutExpanded
+            notificationLayout
                     .setOnClickPendingIntent(
                             R.id.btn_volume_rise,
                             PendingIntent.getService(
@@ -80,7 +81,6 @@ public class VolumeService extends Service {
                     .setSmallIcon(R.drawable.ic_launcher_background)
                     .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
                     .setCustomContentView(notificationLayout)
-                    .setCustomBigContentView(notificationLayoutExpanded)
                     .setContentTitle("Volume Service")
                     .setContentText("Volume Service is Running")
                     .setOngoing(true)
