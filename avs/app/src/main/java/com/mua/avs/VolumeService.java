@@ -31,7 +31,7 @@ public class VolumeService extends Service {
     void createNotification() {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(getPackageName(),
-                    "Location Notification Channel",
+                    "Volume Service",
                     NotificationManager.IMPORTANCE_HIGH);
             NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
