@@ -33,11 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
     void init() {
         Intent serviceIntent = new Intent(this, VolumeService.class);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            startForegroundService(serviceIntent);
-        } else {
-            startService(serviceIntent);
-        }
+        startService(serviceIntent);
     }
 
 }

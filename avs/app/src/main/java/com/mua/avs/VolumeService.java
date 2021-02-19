@@ -1,5 +1,6 @@
 package com.mua.avs;
 
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -78,9 +79,10 @@ public class VolumeService extends Service {
                     .setOngoing(true)
                     .setPriority(NotificationCompat.PRIORITY_HIGH);
 
-            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
-            notificationManager.notify(0, builder.build());
+            Notification notification = builder.build();
 
+            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+            notificationManager.notify(0, notification);
         }
     }
 
