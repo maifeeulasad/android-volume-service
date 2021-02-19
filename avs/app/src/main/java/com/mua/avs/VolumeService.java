@@ -27,6 +27,13 @@ public class VolumeService extends Service {
         return Service.START_STICKY;
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        Intent serviceIntent = new Intent(this, VolumeService.class);
+        startService(serviceIntent);
+    }
 
     void createNotification() {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
