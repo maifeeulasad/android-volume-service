@@ -2,6 +2,7 @@ package com.mua.avs;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -28,7 +29,7 @@ public class VolumeService extends Service {
 
     void createNotification() {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel("muavolume",
+            NotificationChannel channel = new NotificationChannel(getPackageName(),
                     "Location Notification Channel",
                     NotificationManager.IMPORTANCE_HIGH);
             NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
@@ -40,8 +41,34 @@ public class VolumeService extends Service {
             RemoteViews notificationLayout = new RemoteViews(getPackageName(), R.layout.notification_volume);
             RemoteViews notificationLayoutExpanded = new RemoteViews(getPackageName(), R.layout.notification_volume);
 
+            Intent downIntent = new Intent(this, NotificationIntentService.class);
+            downIntent.setAction("down");
+            notificationLayoutExpanded
+                    .setOnClickPendingIntent(
+                            R.id.btn_volume_down,
+                            PendingIntent.getService(
+                                    this,
+                                    0,
+                                    downIntent,
+                                    PendingIntent.FLAG_UPDATE_CURRENT
+                            )
+                    );
+
+            Intent riseIntent = new Intent(this, NotificationIntentService.class);
+            riseIntent.setAction("rise");
+            notificationLayoutExpanded
+                    .setOnClickPendingIntent(
+                            R.id.btn_volume_rise,
+                            PendingIntent.getService(
+                                    this,
+                                    0,
+                                    riseIntent,
+                                    PendingIntent.FLAG_UPDATE_CURRENT
+                            )
+                    );
+
             NotificationCompat.Builder builder
-                    = new NotificationCompat.Builder(this, "muavolume")
+                    = new NotificationCompat.Builder(this, getPackageName())
                     .setSmallIcon(R.drawable.ic_launcher_background)
                     .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
                     .setCustomContentView(notificationLayout)
@@ -53,6 +80,7 @@ public class VolumeService extends Service {
 
             NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
             notificationManager.notify(0, builder.build());
+
         }
     }
 
