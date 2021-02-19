@@ -22,6 +22,9 @@
         <service
             android:enabled="true"
             android:name=".VolumeService"/>
+        <service
+            android:enabled="true"
+            android:name=".NotificationIntentService"/>
     </application>
 
 </manifest>

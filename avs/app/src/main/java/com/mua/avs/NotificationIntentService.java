@@ -1,10 +1,10 @@
 package com.mua.avs;
 
 import android.app.IntentService;
+import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.os.Looper;
-import android.util.Log;
-import android.widget.Toast;
 
 public class NotificationIntentService extends IntentService {
 
@@ -18,24 +18,16 @@ public class NotificationIntentService extends IntentService {
             case "down":
                 android.os.Handler downHandler = new android.os.Handler(Looper.getMainLooper());
                 downHandler.post(() -> {
-                            Log.d("d--mua", "down");
-                            Toast.makeText(
-                                    getBaseContext(),
-                                    "down",
-                                    Toast.LENGTH_LONG
-                            ).show();
+                            AudioManager audioManager = (AudioManager) getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
+                            audioManager.adjustVolume(AudioManager.ADJUST_LOWER, AudioManager.FLAG_PLAY_SOUND);
                         }
                 );
                 break;
             case "rise":
                 android.os.Handler riseHandler = new android.os.Handler(Looper.getMainLooper());
                 riseHandler.post(() -> {
-                            Log.d("d--mua", "rise");
-                            Toast.makeText(
-                                    getBaseContext(),
-                                    "rise",
-                                    Toast.LENGTH_LONG
-                            ).show();
+                            AudioManager audioManager = (AudioManager) getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
+                            audioManager.adjustVolume(AudioManager.ADJUST_RAISE, AudioManager.FLAG_PLAY_SOUND);
                         }
                 );
                 break;
