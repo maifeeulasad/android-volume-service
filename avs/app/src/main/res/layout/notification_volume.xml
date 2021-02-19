@@ -1,18 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <Button
-        android:id="@+id/btn_volume_up"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:text="Up" />
+    android:layout_height="wrap_content"
+    android:layout_margin="20dp"
+    android:orientation="horizontal">
 
     <Button
         android:id="@+id/btn_volume_down"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:text="Down" />
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="-" />
+
+    <Button
+        android:id="@+id/btn_volume_rise"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="+" />
 
 </LinearLayout>
