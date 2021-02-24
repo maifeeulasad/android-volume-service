@@ -89,7 +89,7 @@ public class VolumeService extends Service {
             Notification notification = builder.build();
 
             NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
-            notificationManager.notify(0, notification);
+            startForeground(1, notification);
         }
     }
 
